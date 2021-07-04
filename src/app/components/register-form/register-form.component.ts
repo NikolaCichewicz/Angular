@@ -12,19 +12,31 @@ export class RegisterFormComponent implements OnInit {
   
   registerForm;
 
+  disableForm = true;
 
-  constructor(private formBuilder: FormBuilder) {}
+
+  constructor(private formBuilder: FormBuilder) {
+    this.registerForm = this.formBuilder.group({
+      username: [{value:'', disabled:this.disableForm}],
+      email: [{value:'', disabled:this.disableForm}],
+      password: [{value:'', disabled:this.disableForm}],
+      confirmpassword: [{value:'', disabled:this.disableForm}],
+      dropdown:[{value:'', disabled:this.disableForm}]
+    });
+  }
 
   
   ngOnInit() {
-    this.registerForm = this.formBuilder.group({
-      username: [''],
-      email: [''],
-      password: [''],
-      confirmpassword: [''],
-      dropdown:['']
-    });
+    
   } 
+
+  enableEdit(){
+    //change monitoring status for the form
+    this.disableForm = !this.disableForm;
+    // if form is enabled then disable it. else enable the form
+    if(!this.disableForm) this.registerForm.disable();
+    else this.registerForm.enable();
+}
 
   items = [
     {
