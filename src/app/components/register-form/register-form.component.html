@@ -1,0 +1,56 @@
+<div class="main-wrapper" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="box">
+        <mat-card-header>
+            <mat-card-title>Register</mat-card-title>
+        </mat-card-header>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+
+            <!-- Username -->
+            <mat-card-content>
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Username" ngModel name="username" minlength="5"
+                        formControlName="username" required>
+                </mat-form-field>
+                <mat-error *ngIf="username.touched && !username.valid">
+                    <div *ngIf="username.errors.required">Username is required.</div>
+                    <div *ngIf="username.errors.minlength">Username should be minimum 5 characters.</div>
+                </mat-error>
+
+                <!-- Email -->
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Email" ngModel name="email" minlength="5" [pattern]="emailPattern"
+                        formControlName="email" required>
+                </mat-form-field>
+                <mat-error *ngIf="email.touched && !email.valid">
+                    <div *ngIf="email.errors.required">Email is required.</div>
+                    <div *ngIf="email.errors.pattern">Email is not valid.</div>
+                </mat-error>
+
+                <!-- Password -->
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Password" ngModel name="password" minlength="5"
+                        formControlName="password" required>
+                </mat-form-field>
+                <mat-error *ngIf="password.touched && !password.valid">
+                    <div *ngIf="password.errors.required">Password is required.</div>
+                    <div *ngIf="password.errors.minlength">Password should be minimum 5 characters.</div>
+                </mat-error>
+
+                <!-- Repeat Password -->
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Confirm Password" ngModel name="confirmpassword" formControlName="confirmpassword"
+                        required>
+                </mat-form-field>
+                <mat-error *ngIf="confirmpassword.touched && confirmpassword.value != password.value"> Passwords does not match
+                </mat-error>
+
+                <ng-select [items]="items" bindLabel="name" ngModel name="dropdown" formControlName="dropdown" required></ng-select>
+                <div *ngIf="!dropdown" class="invalid-feedback">Dropdown is required</div>
+
+            </mat-card-content>
+
+            <button mat-button color="primary" class="btn-block" type="submit" [disabled]="!registerForm.valid">Register</button>
+        
+        </form>
+    </mat-card>
