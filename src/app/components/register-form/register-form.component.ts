@@ -14,6 +14,10 @@ export class RegisterFormComponent implements OnInit {
 
   disableForm = true;
 
+  isEditable;
+
+  
+
 
   constructor(private formBuilder: FormBuilder) {
     this.registerForm = this.formBuilder.group({
@@ -31,12 +35,11 @@ export class RegisterFormComponent implements OnInit {
   } 
 
   enableEdit(){
-    //change monitoring status for the form
     this.disableForm = !this.disableForm;
-    // if form is enabled then disable it. else enable the form
-    if(!this.disableForm) this.registerForm.disable();
-    else this.registerForm.enable();
-}
+    // if(!this.disableForm) this.registerForm.disable();
+    this.registerForm.enable();
+    this.isEditable = true;
+  }
 
   items = [
     {
@@ -75,6 +78,8 @@ export class RegisterFormComponent implements OnInit {
 
 
   onSubmit() {
-    console.log(this.registerForm.value)
+    console.log(this.registerForm.value);
+    this.registerForm.disable();
+    this.isEditable = false;
   }
 }

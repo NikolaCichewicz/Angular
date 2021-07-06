@@ -13,8 +13,8 @@
                         formControlName="username" required>
                 </mat-form-field>
                 <mat-error *ngIf="username.touched && !username.valid">
-                    <div *ngIf="username.errors.required">Username is required.</div>
-                    <div *ngIf="username.errors.minlength">Username should be minimum 5 characters.</div>
+                    <div *ngIf="username.errors?.required">Username is required.</div>
+                    <div *ngIf="username.errors?.minlength">Username should be minimum 5 characters.</div>
                 </mat-error>
 
                 <!-- Email -->
@@ -23,8 +23,8 @@
                         formControlName="email" required>
                 </mat-form-field>
                 <mat-error *ngIf="email.touched && !email.valid">
-                    <div *ngIf="email.errors.required">Email is required.</div>
-                    <div *ngIf="email.errors.pattern">Email is not valid.</div>
+                    <div *ngIf="email.errors?.required">Email is required.</div>
+                    <div *ngIf="email.errors?.pattern">Email is not valid.</div>
                 </mat-error>
 
                 <!-- Password -->
@@ -33,8 +33,8 @@
                         formControlName="password" required>
                 </mat-form-field>
                 <mat-error *ngIf="password.touched && !password.valid">
-                    <div *ngIf="password.errors.required">Password is required.</div>
-                    <div *ngIf="password.errors.minlength">Password should be minimum 5 characters.</div>
+                    <div *ngIf="password.errors?.required">Password is required.</div>
+                    <div *ngIf="password.errors?.minlength">Password should be minimum 5 characters.</div>
                 </mat-error>
 
                 <!-- Repeat Password -->
@@ -50,8 +50,16 @@
 
             </mat-card-content>
 
-            <button mat-button color="primary" class="btn-block" type="button" (click)="enableEdit()">Edit</button>
-            <button mat-button color="primary" class="btn-block" type="submit" [disabled]="!registerForm.valid">Register</button>
+            <button mat-button color="primary" class="btn-block" *ngIf="isEditable; else edit" type="submit"
+                [disabled]="!registerForm.valid">
+                Register
+            </button>
+            
+            <ng-template #edit>
+                <button mat-button color="primary" class="btn-block" type="button" (click)="enableEdit()">
+                    Edit
+                </button>
+            </ng-template>
         
         </form>
     </mat-card>
