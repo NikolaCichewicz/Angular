@@ -1,10 +1,12 @@
 <div class="main-wrapper" fxLayout="row" fxLayoutAlign="center center">
     <mat-card class="box">
-        <mat-card-header>
+        <mat-card-header class="header">
             <mat-card-title>Register</mat-card-title>
         </mat-card-header>
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+
+            <mat-checkbox class="example-margin" ngModel name="checkbox" formControlName="checkbox">Show hidden option!</mat-checkbox>
 
             <!-- Username -->
             <mat-card-content>
@@ -51,8 +53,7 @@
             </mat-card-content>
 
             <button mat-button color="primary" class="btn-block" *ngIf="isEditable; else edit" type="submit"
-                [disabled]="!registerForm.valid">
-                Register
+                [disabled]="!registerForm.valid"> Register
             </button>
             
             <ng-template #edit>

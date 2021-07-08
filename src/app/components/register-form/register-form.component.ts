@@ -25,7 +25,8 @@ export class RegisterFormComponent implements OnInit {
       email: [{value:'', disabled:this.disableForm}],
       password: [{value:'', disabled:this.disableForm}],
       confirmpassword: [{value:'', disabled:this.disableForm}],
-      dropdown:[{value:'', disabled:this.disableForm}]
+      dropdown:[{value:'', disabled:this.disableForm}],
+      checkbox: [{value:'', disabled:this.disableForm}],
     });
   }
 
@@ -49,10 +50,12 @@ export class RegisterFormComponent implements OnInit {
     {
       id: 2,
       name: 'Option 2'
-    }, {
+    }, 
+    {
       id: 3,
       name: 'Option 3'
-    }, {
+    }, 
+    { //extra option
       id: 4,
       name: 'Option 4'
     },
@@ -74,6 +77,9 @@ export class RegisterFormComponent implements OnInit {
   }
   get dropdown() {
     return this.registerForm.get('dropdown');
+  }
+  get checkbox() {
+    return this.registerForm.get('checkbox');
   }
 
 
