@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register-form',
@@ -16,7 +16,9 @@ export class RegisterFormComponent implements OnInit {
 
   isEditable;
 
-  
+  // checkbox = new FormControl(false);
+  itemsToShow = [];
+  itemIdToHide = 4;
 
 
   constructor(private formBuilder: FormBuilder) {
@@ -31,9 +33,21 @@ export class RegisterFormComponent implements OnInit {
   }
 
   
-  ngOnInit() {
-    
-  } 
+  ngOnInit(): void {
+    this.itemsToShow = this.getFilteredItems([this.itemIdToHide]);
+
+    this.checkbox.valueChanges.subscribe((checked) => {
+        if (checked) {
+            this.itemsToShow = [...this.items];
+        } else {
+            this.itemsToShow = this.getFilteredItems([this.itemIdToHide]);
+        }
+    });
+}
+
+private getFilteredItems(idsToHide: number[]): { id: number; name: string }[] {
+    return this.items.filter((item) => !idsToHide.includes(item.id));
+}
 
   enableEdit(){
     this.disableForm = !this.disableForm;

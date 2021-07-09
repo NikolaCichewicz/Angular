@@ -6,7 +6,7 @@
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
 
-            <mat-checkbox class="example-margin" ngModel name="checkbox" formControlName="checkbox">Show hidden option!</mat-checkbox>
+            <mat-checkbox class="example-margin" [formControl]="checkbox">Show hidden option!</mat-checkbox>
 
             <!-- Username -->
             <mat-card-content>
@@ -47,7 +47,7 @@
                 <mat-error *ngIf="confirmpassword.touched && confirmpassword.value != password.value"> Passwords does not match
                 </mat-error>
 
-                <ng-select [items]="items" bindLabel="name" ngModel name="dropdown" formControlName="dropdown" required></ng-select>
+                <ng-select [items]="itemsToShow" bindLabel="name" ngModel name="dropdown" formControlName="dropdown" required></ng-select>
                 <div *ngIf="!dropdown" class="invalid-feedback">Dropdown is required</div>
 
             </mat-card-content>
