@@ -28,7 +28,14 @@ export class RegisterFormComponent implements OnInit {
       password: [{value: '', disabled: this.disableForm}],
       confirmpassword: [{value: '', disabled: this.disableForm}],
       dropdown: [{value: '', disabled: this.disableForm}],
-      checkbox: [{value: '', disabled: this.disableForm}],
+      checkbox1: [{value: '', disabled: this.disableForm}],
+      // rowForm: new FormGroup(
+      //   {
+      //     input1: this.input1,
+      //     input2: this.input2
+      //
+      //   }
+      // )
     });
   }
 
@@ -36,7 +43,7 @@ export class RegisterFormComponent implements OnInit {
   ngOnInit(): void {
     this.itemsToShow = this.getFilteredItems([this.itemIdToHide]);
 
-    this.checkbox.valueChanges.subscribe((checked) => {
+    this.checkbox1.valueChanges.subscribe((checked) => {
       if (checked) {
         this.itemsToShow = [...this.items];
       } else {
@@ -96,8 +103,8 @@ export class RegisterFormComponent implements OnInit {
     return this.registerForm.get('dropdown');
   }
 
-  get checkbox() {
-    return this.registerForm.get('checkbox');
+  get checkbox1() {
+    return this.registerForm.get('checkbox1');
   }
 
 
