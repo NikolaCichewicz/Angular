@@ -11,7 +11,7 @@
             <!-- Username -->
             <mat-card-content>
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Username" ngModel name="username" minlength="5"
+                    <input matInput placeholder="Username" name="username" minlength="5"
                         formControlName="username" required>
                 </mat-form-field>
                 <mat-error *ngIf="username.touched && !username.valid">
@@ -21,7 +21,7 @@
 
                 <!-- Email -->
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Email" ngModel name="email" minlength="5" [pattern]="emailPattern"
+                    <input matInput placeholder="Email"  name="email" minlength="5" [pattern]="emailPattern"
                         formControlName="email" required>
                 </mat-form-field>
                 <mat-error *ngIf="email.touched && !email.valid">
@@ -31,7 +31,7 @@
 
                 <!-- Password -->
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Password" ngModel name="password" minlength="5"
+                    <input matInput placeholder="Password"  name="password" minlength="5"
                         formControlName="password" required>
                 </mat-form-field>
                 <mat-error *ngIf="password.touched && !password.valid">
@@ -41,13 +41,15 @@
 
                 <!-- Repeat Password -->
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Confirm Password" ngModel name="confirmpassword" formControlName="confirmpassword"
+                    <input matInput placeholder="Confirm Password" name="confirmpassword" formControlName="confirmpassword"
                         required>
                 </mat-form-field>
                 <mat-error *ngIf="confirmpassword.touched && confirmpassword.value != password.value"> Passwords does not match
                 </mat-error>
 
-                <ng-select [items]="itemsToShow" bindLabel="name" ngModel name="dropdown" formControlName="dropdown" required></ng-select>
+                <ng-select [items]="itemsToShow" bindLabel="name" name="dropdown" formControlName="dropdown" required>
+
+                </ng-select>
                 <div *ngIf="!dropdown" class="invalid-feedback">Dropdown is required</div>
 
             </mat-card-content>
@@ -55,12 +57,12 @@
             <button mat-button color="primary" class="btn-block" *ngIf="isEditable; else edit" type="submit"
                 [disabled]="!registerForm.valid"> Register
             </button>
-            
+
             <ng-template #edit>
                 <button mat-button color="primary" class="btn-block" type="button" (click)="enableEdit()">
                     Edit
                 </button>
             </ng-template>
-        
+
         </form>
     </mat-card>
