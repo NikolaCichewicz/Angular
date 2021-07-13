@@ -29,13 +29,14 @@ export class RegisterFormComponent implements OnInit {
       confirmpassword: [{value: '', disabled: this.disableForm}],
       dropdown: [{value: '', disabled: this.disableForm}],
       checkbox1: [{value: '', disabled: this.disableForm}],
-      // rowForm: new FormGroup(
-      //   {
-      //     input1: this.input1,
-      //     input2: this.input2
-      //
-      //   }
-      // )
+      rowForm: this.formBuilder.group(
+        {
+          input1: [{value: '', disabled: this.disableForm}],
+          input2: [{value: '', disabled: this.disableForm}],
+          input3: [{value: '', disabled: this.disableForm}],
+          checkbox2: [{value: '', disabled: this.disableForm}] 
+        }
+      )
     });
   }
 

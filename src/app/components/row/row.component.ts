@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, FormControl, Validators, FormArray} from '@angu
 })
 export class RowComponent implements OnInit {
 
-  rowForm;
+  @Input() rowForm: FormGroup;
   showInput = false;
 
 
@@ -47,4 +47,9 @@ export class RowComponent implements OnInit {
   deleteRow(index: number) {
     this.formArray.removeAt(index);
   }
+
+  getControls() {
+    return (this.rowForm.get('rows') as FormArray).controls;
+  }
+
 }

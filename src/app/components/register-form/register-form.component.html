@@ -47,12 +47,12 @@
                 <mat-error *ngIf="confirmpassword.touched && confirmpassword.value != password.value"> Passwords does not match
                 </mat-error>
 
-                <ng-select [items]="itemsToShow" bindLabel="name" name="dropdown" formControlName="dropdown" required>
+                <ng-select [items]="itemsToShow" bindLabel="name" name="dropdown" formControlName="dropdown" required></ng-select>
+                
 
-                </ng-select>
-                <div *ngIf="!dropdown" class="invalid-feedback">Dropdown is required</div>
+            </mat-card-content> 
 
-            </mat-card-content>
+            <app-row [rowForm]="registerForm.controls.rowForm"></app-row>
 
             <button mat-button color="primary" class="btn-block" *ngIf="isEditable; else edit" type="submit"
                 [disabled]="!registerForm.valid"> Register

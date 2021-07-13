@@ -4,7 +4,7 @@ import { RegisterFormComponent } from './components/register-form/register-form.
 import { RowComponent } from "./components/row/row.component";
 
 const routes: Routes = [
-  { path: '', component: RowComponent }
+  { path: '', component: RegisterFormComponent }
 ];
 
 @NgModule({

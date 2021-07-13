@@ -20,6 +20,7 @@ import { RowComponent } from './components/row/row.component';
     RegisterFormComponent,
     RowComponent
   ],
+  
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -31,8 +32,9 @@ import { RowComponent } from './components/row/row.component';
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })
