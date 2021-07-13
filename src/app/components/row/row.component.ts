@@ -10,6 +10,7 @@ export class RowComponent implements OnInit {
 
   @Input() rowForm: FormGroup;
   showInput = false;
+  @Input() disableForm = true;
 
 
   constructor(private formBuilder: FormBuilder) {}
@@ -24,10 +25,10 @@ export class RowComponent implements OnInit {
 
   createRow(): FormGroup {
     return this.formBuilder.group({
-      input1: ['', Validators.required],
-      input2: ['', Validators.required],
-      input3: ['', Validators.required],
-      checkbox2: ['', Validators.required],
+      input1: [{value: '', disabled: this.disableForm}],
+      input2: [{value: '', disabled: this.disableForm}],
+      input3: [{value: '', disabled: this.disableForm}],
+      checkbox2: [{value: '', disabled: this.disableForm}],
     });
   }
 

@@ -31,10 +31,10 @@ export class RegisterFormComponent implements OnInit {
       checkbox1: [{value: '', disabled: this.disableForm}],
       rowForm: this.formBuilder.group(
         {
-          input1: [{value: '', disabled: this.disableForm}],
-          input2: [{value: '', disabled: this.disableForm}],
-          input3: [{value: '', disabled: this.disableForm}],
-          checkbox2: [{value: '', disabled: this.disableForm}] 
+          input1: [''],
+          input2: [''],
+          input3: [''],
+          checkbox2: [''] 
         }
       )
     });
