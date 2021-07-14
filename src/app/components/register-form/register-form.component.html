@@ -52,7 +52,7 @@
 
             </mat-card-content> 
 
-            <app-row [rowForm]="registerForm.controls.rowForm" [disabled]="isEditable"></app-row>
+            <app-row [rowForm]="registerForm.controls.rowForm"></app-row>
 
             <button mat-button color="primary" class="btn-block" *ngIf="isEditable; else edit" type="submit"
                 [disabled]="!registerForm.valid"> Register

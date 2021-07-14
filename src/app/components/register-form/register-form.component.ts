@@ -8,15 +8,10 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class RegisterFormComponent implements OnInit {
 
-  emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';  //Pattern to check if email is correct
-
+  emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
   registerForm;
-
   disableForm = true;
-
-  isEditable;
-
-  // checkbox = new FormControl(false);
+  isEditable:boolean = false;
   itemsToShow = [];
   itemIdToHide = 4;
 
@@ -29,14 +24,7 @@ export class RegisterFormComponent implements OnInit {
       confirmpassword: [{value: '', disabled: this.disableForm}],
       dropdown: [{value: '', disabled: this.disableForm}],
       checkbox1: [{value: '', disabled: this.disableForm}],
-      rowForm: this.formBuilder.group(
-        {
-          input1: [''],
-          input2: [''],
-          input3: [''],
-          checkbox2: [''] 
-        }
-      )
+      rowForm: this.formBuilder.group({})
     });
   }
 
@@ -57,11 +45,14 @@ export class RegisterFormComponent implements OnInit {
     return this.items.filter((item) => !idsToHide.includes(item.id));
   }
 
+  get rowForm(){
+    return this.registerForm.get('rowForm') as FormGroup
+  }
+
   enableEdit() {
     this.disableForm = !this.disableForm;
-    // if(!this.disableForm) this.registerForm.disable();
-    this.registerForm.enable();
     this.isEditable = true;
+    this.enable(this.registerForm,true)
   }
 
   items = [
@@ -106,6 +97,24 @@ export class RegisterFormComponent implements OnInit {
 
   get checkbox1() {
     return this.registerForm.get('checkbox1');
+  }
+
+  enable(form: FormGroup, enable: boolean) {
+    Object.keys(form.controls).forEach(key => {
+      const control = form.get(key);
+      console.log((control as any).length)
+      if (control) {
+        if ((control as any).controls)
+        {
+          console.log(key)
+          this.enable(control as FormGroup, enable);
+        }
+        else {
+          if (enable) control.enable();
+          else control.disable();
+        }
+      }
+    });
   }
 
 

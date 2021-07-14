@@ -16,7 +16,7 @@
         <input matInput placeholder="Input3" formControlName="input3"  name="input3" required>
       </mat-form-field>
 
-      <button mat-button color="primary" *ngIf="rowForm.controls.rows.controls.length > 1" (click)="deleteRow(i)" class="btn btn-danger">Delete Button</button>
+      <button mat-button color="primary" *ngIf="getControls().length > 1" (click)="deleteRow(i)" class="btn btn-danger">Delete Button</button>
     </div>
   </div>
   

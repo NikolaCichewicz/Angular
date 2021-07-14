@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
+import {Component, Input, OnInit,AfterViewInit} from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray,ControlContainer} from '@angular/forms';
 
 @Component({
   selector: 'app-row',
@@ -10,25 +10,25 @@ export class RowComponent implements OnInit {
 
   @Input() rowForm: FormGroup;
   showInput = false;
-  @Input() disableForm = true;
 
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder,private parentControl: ControlContainer) {}
 
 
   ngOnInit() {
-    this.rowForm = this.formBuilder.group({
-      rows: this.formBuilder.array([this.createRow()])
-    });
+    setTimeout(()=>{
+      this.rowForm.addControl("rows",this.formBuilder.array([this.createRow(true)]))
+
+    })
   }
 
 
-  createRow(): FormGroup {
+  createRow(disabled:boolean=false): FormGroup {
     return this.formBuilder.group({
-      input1: [{value: '', disabled: this.disableForm}],
-      input2: [{value: '', disabled: this.disableForm}],
-      input3: [{value: '', disabled: this.disableForm}],
-      checkbox2: [{value: '', disabled: this.disableForm}],
+      input1: [{value:'',disabled:disabled}, Validators.required],
+      input2: [{value:'',disabled:disabled}, Validators.required],
+      input3: [{value:'',disabled:disabled}, Validators.required],
+      checkbox2: [{value:'',disabled:disabled}, Validators.requiredTrue],
     });
   }
 
