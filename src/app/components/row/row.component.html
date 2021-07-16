@@ -1,25 +1,25 @@
 <form [formGroup]="rowForm">
   <div *ngIf="rowForm.get('rows')" formArrayName="rows">
     <div *ngFor="let rows of getControls(); let i=index"  [formGroupName]="i">
-  
+
       <mat-checkbox class="example-margin" formControlName="checkbox2"  name="checkbox2" (click)="toggleInput(i)">Show hidden option!</mat-checkbox>
-  
+
       <mat-form-field class="example-full-width">
         <input matInput placeholder="Input1" formControlName="input1"  name="input1" required>
       </mat-form-field>
-  
+
       <mat-form-field class="example-full-width">
         <input matInput placeholder="Input2" formControlName="input2"  name="input2" required>
       </mat-form-field>
-  
+
       <mat-form-field *ngIf="showInput"  class="example-full-width">
         <input matInput placeholder="Input3" formControlName="input3"  name="input3" required>
       </mat-form-field>
-  
+
       <button mat-button color="primary" *ngIf="getControls().length > 1" (click)="deleteRow(i)" class="btn btn-danger">Delete Button</button>
     </div>
   </div>
-  
+
   <button mat-button color="primary" (click)="addNewRow()" class="btn btn-primary">Add new Row</button><br>
-  
+
   </form>

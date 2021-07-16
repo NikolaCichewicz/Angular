@@ -1,5 +1,5 @@
 import {Component, Input, OnInit,AfterViewInit} from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, FormArray,ControlContainer} from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray,ControlContainer, ValidatorFn, AbstractControl} from '@angular/forms';
 
 @Component({
   selector: 'app-row',
@@ -28,12 +28,15 @@ export class RowComponent implements OnInit {
       input1: [{value:'',disabled:disabled}, Validators.required],
       input2: [{value:'',disabled:disabled}, Validators.required],
       input3: [{value:'',disabled:disabled}, Validators.required],
-      checkbox2: [{value:'',disabled:disabled}, Validators.requiredTrue],
+      checkbox2: [{value:'',disabled:disabled}, Validators.required],
     });
   }
 
+
   toggleInput(index: number) {
     this.showInput = !this.showInput;
+    this.rowForm.controls.input3.setValidators(this.showInput ? null : [Validators.required]);
+    this.rowForm.controls.input3.updateValueAndValidity();
   }
 
   get formArray() {
