@@ -8,56 +8,42 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./row.component.css']
 })
 export class RowComponent implements OnInit {
-
   @Input() rowForm: FormGroup;
-  subscription: Subscription;
-  showInput = false;
+  readonly inputVisibleMapper: Record<number, boolean> = {};
+  formArray: FormArray;
 
-
-  constructor(private formBuilder: FormBuilder,private parentControl: ControlContainer) {}
-
+  constructor(private readonly formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    setTimeout(()=>{
-      this.rowForm.addControl("rows",this.formBuilder.array([this.createRow(true)]))
-
-    });
-    const checkbox2 = <FormControl>this.rowForm.get('checkbox2');
-    const input3 = <FormControl>this.rowForm.get('input3');
-
-    this.subscription = checkbox2.valueChanges.subscribe(value => {
-      if (value) {
-        input3.setValidators([Validators.required, ])
-      }
-      else {
-        input3.setValidators(null);
-      }
-
-      input3.updateValueAndValidity();
+    this.formArray = this.formBuilder.array([this.createRow(true)]);
+    setTimeout(() => {
+      this.rowForm.addControl('rows', this.formArray);
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  createRow(disabled:boolean=false): FormGroup {
+  createRow(disabled = false): FormGroup {
     return this.formBuilder.group({
-      input1: [{value:'',disabled:disabled}, Validators.required],
-      input2: [{value:'',disabled:disabled}, Validators.required],
-      input3: [{value:'',disabled:disabled}],
-      checkbox2: [{value:'',disabled:disabled}],
+      input1: [{ value: '', disabled }, Validators.required],
+      input2: [{ value: '', disabled }, Validators.required],
+      input3: [{ value: '', disabled }],
+      checkbox2: [{ value: '', disabled }],
     });
   }
 
   toggleInput(index: number) {
-    this.showInput = !this.showInput;
-  }
+    this.inputVisibleMapper[index] = !this.inputVisibleMapper[index];
+    const formGroup = this.formArray.at(index) as FormGroup;
+    const checkbox2 = formGroup.get('checkbox2');
+    const input3 = formGroup.get('input3');
 
-  get formArray() {
-    return this.rowForm.get('rows') as FormArray;
+    if (checkbox2.value) {
+      input3.setValidators(Validators.required);
+    } else {
+      // Note that I replaced `setValidators(null)` as there's a dedicated method for it: `clearValidators()`
+      input3.clearValidators();
+    }
+
+    input3.updateValueAndValidity();
   }
 
   addNewRow() {
@@ -67,8 +53,5 @@ export class RowComponent implements OnInit {
   deleteRow(index: number) {
     this.formArray.removeAt(index);
   }
-
-  getControls() {
-    return (this.rowForm.get('rows') as FormArray).controls;
-  }
+  
 }
