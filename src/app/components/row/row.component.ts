@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './row.component.html',
   styleUrls: ['./row.component.css']
 })
+
 export class RowComponent implements OnInit {
   @Input() rowForm: FormGroup;
   readonly inputVisibleMapper: Record<number, boolean> = {};
@@ -15,10 +16,8 @@ export class RowComponent implements OnInit {
   constructor(private readonly formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.formArray = this.formBuilder.array([this.createRow(true)]);
-    setTimeout(() => {
-      this.rowForm.addControl('rows', this.formArray);
-    });
+    this.formArray = this.formBuilder.array([this.createRow(true)]);    
+    this.rowForm.addControl('rows', this.formArray);
   }
 
   createRow(disabled = false): FormGroup {
@@ -26,7 +25,7 @@ export class RowComponent implements OnInit {
       input1: [{ value: '', disabled }, Validators.required],
       input2: [{ value: '', disabled }, Validators.required],
       input3: [{ value: '', disabled }],
-      checkbox2: [{ value: '', disabled }],
+      checkbox2: [{ value: '', disabled}],
     });
   }
 
@@ -36,14 +35,14 @@ export class RowComponent implements OnInit {
     const checkbox2 = formGroup.get('checkbox2');
     const input3 = formGroup.get('input3');
 
-    if (checkbox2.value) {
-      input3.setValidators(Validators.required);
+    if (checkbox2?.value) {
+      input3?.setValidators(Validators.required);
     } else {
       // Note that I replaced `setValidators(null)` as there's a dedicated method for it: `clearValidators()`
-      input3.clearValidators();
+      input3?.clearValidators();
     }
 
-    input3.updateValueAndValidity();
+    input3?.updateValueAndValidity();
   }
 
   addNewRow() {
@@ -53,5 +52,4 @@ export class RowComponent implements OnInit {
   deleteRow(index: number) {
     this.formArray.removeAt(index);
   }
-  
 }
