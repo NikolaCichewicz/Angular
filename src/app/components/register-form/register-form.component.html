@@ -1,12 +1,12 @@
 <div class="main-wrapper" fxLayout="row" fxLayoutAlign="center center">
     <mat-card class="box">
         <mat-card-header class="header">
-            <mat-card-title>Register</mat-card-title>
+          <mat-card-title *ngIf="!isEditting">Register</mat-card-title>
+          <mat-card-title *ngIf="isEditting">Edit</mat-card-title>
         </mat-card-header>
 
         <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-            <mat-checkbox class="example-margin" [formControl]="checkbox1">Show hidden option!</mat-checkbox>
 
             <!-- Username -->
             <mat-card-content>
@@ -14,53 +14,57 @@
                     <input matInput placeholder="Username" name="username" minlength="5"
                         formControlName="username" required>
                 </mat-form-field>
-                <mat-error *ngIf="username.touched && !username.valid">
-                    <div *ngIf="username.errors?.required">Username is required.</div>
-                    <div *ngIf="username.errors?.minlength">Username should be minimum 5 characters.</div>
+                <mat-error *ngIf="!isEditting && !f.username.valid">
+                    <div *ngIf="f.username.errors?.required">Username is required.</div>
+                    <div *ngIf="f.username.errors?.minlength">Username should be minimum 5 characters.</div>
                 </mat-error>
 
                 <!-- Email -->
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Email"  name="email" minlength="5" [pattern]="emailPattern"
+                    <input matInput placeholder="Email" name="email" minlength="5" [pattern]="emailPattern"
                         formControlName="email" required>
                 </mat-form-field>
-                <mat-error *ngIf="email.touched && !email.valid">
-                    <div *ngIf="email.errors?.required">Email is required.</div>
-                    <div *ngIf="email.errors?.pattern">Email is not valid.</div>
+                <mat-error *ngIf="!isEditting && !f.email.valid">
+                    <div *ngIf="f.email.errors?.required">Email is required.</div>
+                    <div *ngIf="f.email.errors?.pattern">Email is not valid.</div>
                 </mat-error>
 
                 <!-- Password -->
                 <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Password"  name="password" minlength="5"
+                    <input matInput placeholder="Password" name="password" minlength="5"
                         formControlName="password" required>
                 </mat-form-field>
-                <mat-error *ngIf="password.touched && !password.valid">
-                    <div *ngIf="password.errors?.required">Password is required.</div>
-                    <div *ngIf="password.errors?.minlength">Password should be minimum 5 characters.</div>
+                <mat-error *ngIf="!isEditting && !f.password.valid">
+                    <div *ngIf="f.password.errors?.required">Password is required.</div>
+                    <div *ngIf="f.password.errors?.minlength">Password should be minimum 5 characters.</div>
                 </mat-error>
 
                 <!-- Repeat Password -->
-                <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Confirm Password" name="confirmpassword" formControlName="confirmpassword"
+                <mat-form-field *ngIf="!isEditting" class="example-full-width">
+                    <input matInput placeholder="Confirm Password" name="confirmPassword" formControlName="confirmPassword"
                         required>
                 </mat-form-field>
-                <mat-error *ngIf="confirmpassword.touched && confirmpassword.value != password.value"> Passwords does not match
+                <mat-error *ngIf="!isEditting && !f.confirmPassword.valid">
+                  <div *ngIf="f.confirmPassword.errors?.required">Password is required.</div>
+                  <div *ngIf="f.confirmPassword.value != f.password.value"> Passwords does not match </div>
                 </mat-error>
 
-                <ng-select [items]="itemsToShow" bindLabel="name" name="dropdown" formControlName="dropdown" required></ng-select>
-                
 
-            </mat-card-content> 
+            </mat-card-content>
 
-            <app-row [rowForm]="registerForm.controls.rowForm"></app-row>
+          <a routerLink="">
+            <button mat-button color="primary" class="btn-block">
+              Back
+            </button>
+          </a>
 
             <button mat-button color="primary" class="btn-block" *ngIf="isEditable; else edit" type="submit"
-                [disabled]="!registerForm.valid"> Register
+                [disabled]="!registerForm.valid"> Save
             </button>
 
             <ng-template #edit>
                 <button mat-button color="primary" class="btn-block" type="button" (click)="enableEdit()">
-                    Edit
+                    Enable
                 </button>
             </ng-template>
 

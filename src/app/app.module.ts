@@ -12,15 +12,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { RowComponent } from './components/row/row.component';
+import { UsersComponent } from './components/users/users.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+import {MatMenuModule} from '@angular/material/menu';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterFormComponent,
-    RowComponent
+    UsersComponent,
+
   ],
-  
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -33,9 +37,12 @@ import { RowComponent } from './components/row/row.component';
     ReactiveFormsModule,
     NgSelectModule,
     MatCheckboxModule,
+    HttpClientModule,
+    MatMenuModule,
+    ToastrModule.forRoot()
   ],
 
-  providers: [],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UserDetailsService} from '../../shared/user-details.service';
+import {UserDetailsModel} from '../../shared/user-details.model';
+import {ActivatedRoute, Router} from '@angular/router';
+import { filter } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-register-form',
@@ -9,109 +15,73 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 export class RegisterFormComponent implements OnInit {
 
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$';
-  registerForm;
+  registerForm: FormGroup;
   disableForm = true;
-  isEditable:boolean = false;
-  itemsToShow = [];
-  itemIdToHide = 4;
+  isEditable = false;
+  isEditting = false;
+
+  constructor(public service: UserDetailsService, private formBuilder: FormBuilder,
+              private router: Router, private route: ActivatedRoute) { }
 
 
-  constructor(private formBuilder: FormBuilder) {
+  ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       username: [{value: '', disabled: this.disableForm}],
       email: [{value: '', disabled: this.disableForm}],
       password: [{value: '', disabled: this.disableForm}],
-      confirmpassword: [{value: '', disabled: this.disableForm}],
-      dropdown: [{value: '', disabled: this.disableForm}],
-      checkbox1: [{value: '', disabled: this.disableForm}],
-      rowForm: this.formBuilder.group({})
+      confirmPassword: [{value: '', disabled: this.disableForm}],
     });
+    if (this.router.url.includes('edit')) {
+      this.isEditting = true;
+      this.enableEdit();
+      this.route.queryParams
+        .pipe(filter(params => params.userDetailId)).subscribe(params => {
+        this.service.getById(params.userDetailId).subscribe((res: UserDetailsModel) => {
+          this.prepareEditForm(res);
+        });
+      });
+    }
   }
 
-
-  ngOnInit(): void {
-    this.itemsToShow = this.getFilteredItems([this.itemIdToHide]);
-
-    this.checkbox1.valueChanges.subscribe((checked) => {
-      if (checked) {
-        this.itemsToShow = [...this.items];
-      } else {
-        this.itemsToShow = this.getFilteredItems([this.itemIdToHide]);
-      }
+  private prepareEditForm(res: UserDetailsModel) {
+    this.registerForm = this.formBuilder.group({
+      userDetailId: [res.userDetailId],
+      username: [res.username, [Validators.required]],
+      email: [res.email, [Validators.required]],
+      password: [res.password, [Validators.required]],
     });
-  }
-
-  private getFilteredItems(idsToHide: number[]): { id: number; name: string }[] {
-    return this.items.filter((item) => !idsToHide.includes(item.id));
-  }
-
-  get rowForm(){
-    return this.registerForm.get('rowForm') as FormGroup
   }
 
   enableEdit() {
     this.disableForm = !this.disableForm;
     this.isEditable = true;
-    this.enable(this.registerForm,true)
+    this.enable(this.registerForm, true);
   }
 
-  items = [
-    {
-      id: 1,
-      name: 'Option 1'
-    },
-    {
-      id: 2,
-      name: 'Option 2'
-    },
-    {
-      id: 3,
-      name: 'Option 3'
-    },
-    { //extra option
-      id: 4,
-      name: 'Option 4'
-    },
-  ];
-
-
-  get username() {
-    return this.registerForm.get('username');
+  disableEdit() {
+    this.disableForm = true;
+    this.isEditable = false;
+    this.enable(this.registerForm, false);
   }
 
-  get email() {
-    return this.registerForm.get('email');
-  }
 
-  get password() {
-    return this.registerForm.get('password');
-  }
-
-  get confirmpassword() {
-    return this.registerForm.get('confirmpassword');
-  }
-
-  get dropdown() {
-    return this.registerForm.get('dropdown');
-  }
-
-  get checkbox1() {
-    return this.registerForm.get('checkbox1');
+  get f() {
+    return this.registerForm.controls;
   }
 
   enable(form: FormGroup, enable: boolean) {
     Object.keys(form.controls).forEach(key => {
       const control = form.get(key);
-      console.log((control as any).length)
+      console.log((control as any).length);
       if (control) {
         if ((control as any).controls)
         {
-          console.log(key)
+          console.log(key);
           this.enable(control as FormGroup, enable);
         }
         else {
-          if (enable) control.enable();
-          else control.disable();
+          if (enable) { control.enable(); }
+          else { control.disable(); }
         }
       }
     });
@@ -120,7 +90,23 @@ export class RegisterFormComponent implements OnInit {
 
   onSubmit() {
     console.log(this.registerForm.value);
-    this.registerForm.disable();
-    this.isEditable = false;
+    if (this.registerForm.invalid) {
+      return;
+    }
+   else if (this.router.url.includes('edit')) {
+     this.service.update(this.registerForm.value).subscribe(res => {
+       console.log();
+     }, (err) => {
+       console.log(err);
+     });
+   } else {
+     this.service.create(this.registerForm.value).subscribe(res => {
+       console.log();
+       this.disableEdit();
+       this.registerForm.reset();
+     }, (err) => {
+       console.log(err);
+     });
+   }
   }
 }
